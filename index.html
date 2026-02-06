@@ -1,0 +1,232 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE BESTIE PORTAL 🥂</title>
+    <style>
+        :root { 
+            --gold: #d4af37; 
+            --light-lavender: #E6E6FA;
+            --main-lavender: #D8BFD8;
+            --deep-purple: #6A5ACD;
+            --heart-color: rgba(106, 90, 205, 0.4); /* Amethyst hearts */
+        }
+        
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: var(--light-lavender); /* Lavender Base */
+            color: #333; 
+            font-family: 'Georgia', serif; overflow: hidden; 
+        }
+
+        /* LIQUID AURA ON LAVENDER */
+        #aura-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: linear-gradient(45deg, #E6E6FA, #D8BFD8, #f3e5f5, #E6E6FA);
+            background-size: 400% 400%; 
+            animation: aura-flow 15s ease infinite; 
+            transition: all 0.6s ease;
+        }
+
+        @keyframes aura-flow { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        /* FLOATING HEARTS */
+        .heart-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -100px;
+            background-color: var(--heart-color);
+            display: inline-block;
+            height: 30px; width: 30px;
+            transform: rotate(-45deg);
+            animation: float 8s linear infinite;
+        }
+
+        .heart::after, .heart::before {
+            content: "";
+            background-color: inherit;
+            border-radius: 50%;
+            height: 30px; position: absolute; width: 30px;
+        }
+
+        .heart::before { top: -15px; left: 0; }
+        .heart::after { left: 15px; top: 0; }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) rotate(-45deg); opacity: 0; }
+        }
+
+        /* States */
+        .angry-aura { background: linear-gradient(45deg, #ff4d6d, #800000) !important; }
+        .angry-heart { background-color: rgba(255, 0, 0, 0.6) !important; }
+
+        .gold-aura { background: linear-gradient(45deg, #d4af37, #fff7ad) !important; }
+        .gold-heart { background-color: rgba(212, 175, 55, 0.8) !important; box-shadow: 0 0 10px var(--gold); }
+
+        /* UI CARDS */
+        .card { 
+            padding: 30px; 
+            background: rgba(255, 255, 255, 0.7); /* Frosted white look */
+            backdrop-filter: blur(15px); 
+            border: 2px solid var(--deep-purple); 
+            border-radius: 25px; 
+            max-width: 350px; width: 85%; 
+            text-align: center; 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            z-index: 10;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            color: #4b0082;
+        }
+
+        .hidden { display: none !important; }
+        
+        .button-container { margin-top: 30px; height: 120px; position: relative; }
+
+        button { 
+            padding: 12px 25px; border-radius: 50px; border: none; 
+            font-weight: bold; cursor: pointer; transition: 0.3s; 
+            font-size: 1rem; text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #yesBtn { background: var(--deep-purple); color: white; }
+        #noBtn { background: #666; color: white; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); z-index: 1000; }
+
+        .vow-box { text-align: left; background: rgba(106, 90, 205, 0.1); padding: 15px; border-radius: 15px; margin: 15px 0; color: #4b0082; }
+        .vow-item { margin: 12px 0; display: flex; align-items: center; gap: 10px; }
+        
+        input { 
+            background: transparent; border: none; border-bottom: 2px solid var(--deep-purple); 
+            color: #4b0082; text-align: center; padding: 10px; width: 80%; outline: none; 
+            font-size: 1.1rem;
+        }
+        
+        #hype-display { font-size: 1.4rem; color: var(--deep-purple); font-weight: bold; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+    <div id="aura-bg"></div>
+    <div class="heart-container" id="heart-container"></div>
+
+    <div class="card" id="screen1">
+        <h1 style="color:var(--deep-purple)">BOND CHECK 🔐</h1>
+        <p>On what date did Arshiya turn into someone's puppet?</p>
+        <input type="text" id="passInput" placeholder="DD Month">
+        <br><br><button onclick="checkPass()" style="background: var(--deep-purple); color: white;">DECRYPT</button>
+    </div>
+
+    <div class="card hidden" id="screen2">
+        <h1 style="color:var(--deep-purple)">THE PROMISE 📜</h1>
+        <div class="vow-box">
+            <div class="vow-item"><input type="checkbox" class="vow"> <span>I promise never to think of leaving</span></div>
+            <div class="vow-item"><input type="checkbox" class="vow"> <span>I promise to always be there</span></div>
+            <div class="vow-item"><input type="checkbox" class="vow"> <span>I promise to listen to all your bakwas</span></div>
+        </div>
+        <button onclick="checkVows()" style="background: var(--deep-purple); color: white;">I AGREE FOREVER</button>
+    </div>
+
+    <div class="card hidden" id="screen3">
+        <h1 style="color:var(--deep-purple)">Will you be my Valentines? 🥂</h1>
+        <div class="button-container">
+            <button id="yesBtn" onmouseover="beGold()" onmouseleave="beNormal()" onclick="celebrate()">YES!</button>
+            <button id="noBtn" onmouseover="dodgeNo()" ontouchstart="dodgeNo()">No</button>
+        </div>
+    </div>
+
+    <div class="card hidden" id="screen4">
+        <h1 style="color:var(--deep-purple)">OFFICIALLY MINE ❤️</h1>
+        <div id="hype-display">Ready for the energy?</div>
+        <button style="width: 100%; background: var(--deep-purple); color: white;" onclick="startHype()">🚨 EMERGENCY HYPE 🚨</button>
+    </div>
+
+    <script>
+        const aura = document.getElementById('aura-bg');
+        const heartContainer = document.getElementById('heart-container');
+        
+        function spawnHearts() {
+            for(let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const h = document.createElement('div');
+                    h.className = 'heart';
+                    h.style.left = Math.random() * 100 + 'vw';
+                    h.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                    h.style.width = h.style.height = (Math.random() * 15 + 15) + 'px';
+                    heartContainer.appendChild(h);
+                    h.addEventListener('animationiteration', () => {
+                        h.style.left = Math.random() * 100 + 'vw';
+                    });
+                }, i * 400);
+            }
+        }
+        spawnHearts();
+
+        function beGold() { 
+            aura.classList.add('gold-aura');
+            document.querySelectorAll('.heart').forEach(h => h.classList.add('gold-heart'));
+        }
+        function beNormal() { 
+            aura.classList.remove('gold-aura', 'angry-aura');
+            document.querySelectorAll('.heart').forEach(h => h.classList.remove('gold-heart', 'angry-heart'));
+        }
+        function beAngry() { 
+            aura.classList.add('angry-aura');
+            document.querySelectorAll('.heart').forEach(h => h.classList.add('angry-heart'));
+        }
+
+        function checkPass() {
+            const val = document.getElementById('passInput').value.toLowerCase();
+            if (val.includes('29') && val.includes('november')) {
+                document.getElementById('screen1').classList.add('hidden');
+                document.getElementById('screen2').classList.remove('hidden');
+            } else { alert("Wrong date! Think harder... 😂"); }
+        }
+
+        function checkVows() {
+            if ([...document.querySelectorAll('.vow')].every(v => v.checked)) {
+                document.getElementById('screen2').classList.add('hidden');
+                document.getElementById('screen3').classList.remove('hidden');
+            } else { alert("You must agree to all of them! 🙄"); }
+        }
+
+        function dodgeNo() {
+            beAngry();
+            const btn = document.getElementById('noBtn');
+            btn.style.position = 'fixed';
+            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            btn.style.transform = 'none';
+        }
+
+        function celebrate() {
+            beGold();
+            document.getElementById('screen3').classList.add('hidden');
+            document.getElementById('screen4').classList.remove('hidden');
+        }
+
+        const msgs = ["ICONIC!", "A QUEEN!", "10/10 VIBES!", "THE BEST!", "MAIN CHARACTER!"];
+        function startHype() {
+            const d = document.getElementById('hype-display');
+            let i = 0;
+            const t = setInterval(() => {
+                d.innerText = msgs[Math.floor(Math.random()*msgs.length)];
+                if(i++ > 15) { 
+                    clearInterval(t); 
+                    d.innerText = "Keep Shining Swami🩷"; 
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
